@@ -62,8 +62,6 @@ class TaskCreatedEvent(
 class ParticipantJoinEvent(
     val projectId: UUID,
     val participantId: UUID,
-//    val participantUsername: String,
-//    val participantFullName: String,
     val nameParticipant: String,
     createdAt: Long = System.currentTimeMillis(),
 ) : Event<ProjectAggregate>(
