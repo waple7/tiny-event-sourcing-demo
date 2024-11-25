@@ -1,5 +1,6 @@
 package ru.quipy.controller
 
+import liquibase.pro.packaged.it
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -11,12 +12,15 @@ import ru.quipy.core.EventSourcingService
 import ru.quipy.logic.UserAggregateState
 import ru.quipy.logic.register
 import ru.quipy.api.UserRegisteredEvent
+import ru.quipy.projections.User
+import ru.quipy.projections.UserProjection
 import java.util.*
 
 @RestController
 @RequestMapping("/users")
 class UserController(
-    val userEsService: EventSourcingService<UUID, UserAggregate, UserAggregateState>
+    val userEsService: EventSourcingService<UUID, UserAggregate, UserAggregateState>,
+    val userProjection: UserProjection,
 ) {
 
     @PostMapping("/register")
@@ -30,7 +34,12 @@ class UserController(
     }
 
     @GetMapping("/{userId}")
-    fun getAccount(@PathVariable userId: UUID) : UserAggregateState? {
-        return userEsService.getState(userId)
+    fun getUserById(@PathVariable userId: UUID): User? {
+        return userProjection.getUser(userId)
+    }
+
+    @GetMapping("/getAllUsers")
+    fun getAllUsers(): List<User>? {
+        return userProjection.getAllUsers();
     }
 }

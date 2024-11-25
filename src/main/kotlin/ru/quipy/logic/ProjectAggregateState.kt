@@ -1,6 +1,5 @@
 package ru.quipy.logic
 
-import liquibase.pro.packaged.it
 import ru.quipy.api.*
 import ru.quipy.core.annotations.StateTransitionFunc
 import ru.quipy.domain.AggregateState
